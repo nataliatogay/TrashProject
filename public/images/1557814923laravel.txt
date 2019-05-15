@@ -1,0 +1,206 @@
+composer init
+
+composer update - загружает в проект все необходимые зависимости
+
+composer require carbondate/carbon (for date/time)
+
+
+
+composer global require laravel/installer
+Run -> %appdata%
+add new path to acount variables -> C:\Users\toga_ae36\AppData\Roaming\Composer\vendor\bin
+
+
+database.php -> 
+'charset' => 'utf8',
+'collation' => 'utf8_unicode_ci', (устранение несовместимости кодировок)
+
+
+php artisan make:controller BooksController
+
+
+for dependency injections:
+php artisan make:provider FakeBooksServiceProvider ->
+
+config/app.php 
+App\Providers\FakeBooksServiceProvider::class
+
+// только для авторизованных
+Route::get('/home', 'HomeController@index')->middleware('auth'); OR
+in __constract() {
+$this->middleware('auth'); }
+
+
+migration отличие от entity
+делаются вручную
+
+
+Валидация
+php artisan make:request CreateBookRequest ->
+public function rules() // правила валидации
+    {
+        return [
+            'title' => 'required|max:10|unique:books',
+            'author' => 'required'
+        ];
+    }
+список ошибок resources/lang/en/validation.php
+
+
+
+Authentication
+
+php artisan make:auth
+
+
+->middleware('auth');
+
+
+USE LOCAL TIME
+
+in file AppServiceProvider
+
+public function boot()
+    {
+        date_default_timezone_set('Asia/Baku');
+    }
+
+
+
+
+Laravelcollective/html (типа html-helper)
+-composer require laravelcollective/html
+подключение этой библиотеки:
+file -> app.php ->
+'providers' => [...
+/*
+ * Package Service Providers...
+ */
+Collective\Html\HtmlServiceProvider::class,
+
+...
+]
+
+'aliases' => [
+...
+'Form'=> Collective\Html\FormFacade::class
+...
+]
+
+
+
+в контроллере by default возвращается код 200 (при получении данных, все ок)
+201(добавление данных, все ок)
+204(update, delete, все ок)
+
+
+Seeder:
+
+php artisan php artisan make:seeder BooksTableSeeder
+
+создается файл database/seeds/BooksTableSeeder.php
+в методе run() {
+Book::truncate(); // можно удалять данные со сбросом счетчика
+
+        $faker = \Faker\Factory::create();
+
+        for($i = 0; $i < 100; $i++) {
+            Book::create([
+                'title' => substr($faker->sentence, 0, 20),
+                'author' =>$faker->name
+
+            ]);
+        }
+}
+
+зарегистрировать сидер в файле database/seeds/DatabaseSeeder.php
+
+
+ public function run()
+    {
+        $this->call(BooksTableSeeder::class);
+    }
+
+php artisan db:seed
+
+
+
+Регистрация маршрутов происходит в app/Providers/RouteServiceProvider.php
+
+можно менять маршр по умолчанию, напр. для старой и новой версий api:
+
+protected function mapApiRoutes()
+    {
+        Route::prefix('api/v1')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/api_old.php'));
+
+        Route::prefix('api/v2')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/api-new.php'));
+    }
+
+
+Свои комманды
+routes/console.php
+
+Artisan::command('demo', function(){
+    echo 'Hello';
+});
+теперь при записи php artisan demo выведет в консоль Hello
+
+или
+
+Artisan::call('make:controller', [
+        'name' => 'DemoController',
+        '--model' => 'Demo',
+        '--resource' => true
+    ]); - создает контроллер
+
+
+Artisan::command('createbooksdb', function(){
+    config(['database.connections.mysql.database' => null]); // изменяем в файле настроек значение на null
+    DB::statement('CREATE DATABASE IF NOT EXISTS booksdb
+                    CHARACTER SET utf8
+                    COLLATE utf8_unicode_ci'
+    );
+    config(['database.connections.mysql.database' => 'booksdb']);
+    DB::disconnect('mysql');
+    Artisan::call('migrate');
+    Artisan::call('db:seed');
+});
+
+
+
+php artisan make:command dbcreate
+создается файл app/commands/dbcreate.php
+1. меняем 
+protected $signature = 'db:create {name?}'; // ? - означает, что параметр необязательный
+2. логику прописываем в методе handle
+
+public function handle()
+    {
+        $dbName = $this->argument('name') ?: 'booksdb';
+        config(['database.connections.mysql.database' => null]); // изменяем в файле настроек значение на null
+        DB::statement("DROP DATABASE IF EXISTS $dbName");
+        DB::statement("CREATE DATABASE IF NOT EXISTS $dbName
+                        CHARACTER SET utf8
+                        COLLATE utf8_unicode_ci"
+        );
+        config(['database.connections.mysql.database' => $dbName]);
+        DB::disconnect('mysql');
+        Artisan::call('migrate');
+        Artisan::call('db:seed');
+    }
+
+
+
+
+3. регистрируем эту команду в app/Commands/Kernel.php
+protected $commands = [
+        Commands\dbcreate::class
+    ];
+
+API
