@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Trash;
 use App\Models\Order;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -46,6 +46,11 @@ class User extends Authenticatable
 
     public function collectedTrashes() {
         return $this->hasMany(Trash::class);
+    }
+
+    public function verifyUser()
+    {
+        return $this->hasOne(VerifyUser::class);
     }
 
     public function isAdmin() {

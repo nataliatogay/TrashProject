@@ -16,7 +16,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('myaccount', 'UsersController@index');
 
@@ -26,8 +27,13 @@ Route::resource('articles', 'ArticlesController');
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-Route::get('profile', 'UsersController@edit')->name('profile');
+//Route::get('profile', 'UsersController@edit')->name('profile');
+Route::get('profile', 'UsersController@index')->name('profile')->middleware('verified');;
+Route::get('profile/edit', 'UsersController@edit');
 Route::patch('profile', 'UsersController@update');
+Route::get('/profile/password/edit', 'UsersController@editpassword');
+Route::patch('/profile/password', 'UsersController@changePassword')->name('changePassword');
+
 Route::get('profile/trash', 'ReportController@allUserTrash');
 
 Route::get('trash', 'ReportController@allTrash');
