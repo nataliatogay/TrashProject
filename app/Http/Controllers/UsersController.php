@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-// https://www.5balloons.info/setting-up-change-password-with-laravel-authentication/
 class UsersController extends Controller
 {
 

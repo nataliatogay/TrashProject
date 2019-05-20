@@ -26,10 +26,10 @@ Route::resource('products', 'ProductsController');
 Route::resource('articles', 'ArticlesController');
 
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth')->middleware('verified');
 
-//Route::get('profile', 'UsersController@edit')->name('profile');
 Route::get('profile', 'UsersController@index')->middleware('verified')->name('profile');
+Route::get('edit', 'UsersController@edit');
 Route::get('profile/edit', 'UsersController@edit');
 Route::patch('profile', 'UsersController@update');
 Route::get('/profile/password/edit', 'UsersController@editpassword');
