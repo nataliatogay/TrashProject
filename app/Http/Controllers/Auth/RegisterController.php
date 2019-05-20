@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -55,8 +56,9 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'prefix' => ['required', 'digits_between:1,3'],
-            'phone' => ['required', 'digits_between:7,7']
+            // 'prefix' => ['required', 'digits_between:1,3'],
+            // 'phone' => ['required', 'digits_between:7,7']
+            'phone' => 'required'
         ]);
     }
 
@@ -68,26 +70,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'phone_number' => $data['prefix'].$data['phone']
+            'phone_number' => $data['phone']
         ]);
-
-        $verifyUser = VerifyUser::create([
-            'user_id' => $user->id,
-            'token' => str_random(40)
-        ]);
-
-        Mail::to($user->email)->send(new VerifyMail($user));
-
-        return $user;
-        // return User::create([
-        //     'name' => $data['name'],
-        //     'email' => $data['email'],
-        //     'password' => Hash::make($data['password']),
-        //     'phone_number' => $data['prefix'].$data['phone']
-        // ]);
     }
 }

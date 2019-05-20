@@ -48,11 +48,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Trash::class);
     }
 
-    public function verifyUser()
-    {
-        return $this->hasOne(VerifyUser::class);
-    }
-
     public function isAdmin() {
         return $this->is_admin;
     }

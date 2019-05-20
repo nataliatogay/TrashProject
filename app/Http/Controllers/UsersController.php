@@ -6,7 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Validator;
 
 // https://www.5balloons.info/setting-up-change-password-with-laravel-authentication/
 class UsersController extends Controller
@@ -81,6 +81,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        dd($request->all());
         $validated = $request->validate([
             'img_input' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'required'
@@ -149,5 +150,31 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+
+    public function ajaxImage(Request $request)
+    {
+        if ($request->isMethod('get'))
+            return view('ajax_image_upload');
+        else {
+            $validator = Validator::make($request->all(),
+                [
+                    'file' => 'image',
+                ],
+                [
+                    'file.image' => 'The file must be an image (jpeg, png, bmp, gif, or svg)'
+                ]);
+            if ($validator->fails())
+                return array(
+                    'fail' => true,
+                    'errors' => $validator->errors()
+                );
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $dir = 'storage/';
+            $filename = uniqid() . '_' . time() . '.' . $extension;
+            $request->file('file')->move($dir, $filename);
+            return $filename;
+        }
     }
 }
