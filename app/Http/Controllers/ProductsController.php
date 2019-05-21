@@ -33,6 +33,8 @@ class ProductsController extends Controller
     public function create()
     {
         $this->authorize('create', Product::class);
+
+       // Auth::user()->can('create', Product::class)
         return view('products.create');
     }
 

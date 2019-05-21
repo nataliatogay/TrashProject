@@ -5,6 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 
+/**
+ * @property int $user_id
+ * @property App\User $user
+ * @method void foo(int $a)
+ */
 class Trash extends Model
 {
     public function user() {
@@ -15,3 +20,4 @@ class Trash extends Model
         'user_id', 'lat', 'lng'
     ];
 }
+

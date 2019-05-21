@@ -1,6 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
-
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -6828,10 +6827,6 @@ button.bg-dark:focus {
   background-color: #fff !important;
 }
 
-.bg-mytheme {
-  background-color: #4aabb4 !important;
-}
-
 .bg-transparent {
   background-color: transparent !important;
 }
@@ -10665,5 +10660,9 @@ a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6;
   }
+}
+
+.admin-panel {
+  background: red;
 }
 

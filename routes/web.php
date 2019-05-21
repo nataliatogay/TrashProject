@@ -19,6 +19,11 @@ Route::get('/', function () {
 // Auth::routes();
 Auth::routes(['verify' => true]);
 
+/*
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
+    Route::get('books', 'BooksController');
+});
+*/
 
 Route::get('myaccount', 'UsersController@index');
 
@@ -38,6 +43,4 @@ Route::patch('/profile/password', 'UsersController@changePassword')->name('chang
 Route::get('profile/trash', 'ReportController@allUserTrash');
 
 Route::get('trash', 'ReportController@allTrash');
-
-Route::match(['get', 'post'], 'ajax-image-upload', 'UsersController@ajaxImage');
 
