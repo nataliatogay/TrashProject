@@ -7,6 +7,15 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-@import 'admin.scss';
+// Layout
+@import 'layout/header';
 
-//@import 'carousel.css';
+//Components
+@import 'components/search';
+@import 'components/breadcrumbs';
+@import 'components/pagination';
+
+// Pages
+@import 'pages/shop';
+@import 'pages/cart';
+@import 'pages/product';

@@ -49254,17 +49254,6 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/js/admin.js":
-/*!*******************************!*\
-  !*** ./resources/js/admin.js ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -49278,8 +49267,6 @@ module.exports = function(module) {
  * building robust, powerful web applications using Vue and Laravel.
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
-__webpack_require__(/*! ./admin */ "./resources/js/admin.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /**
@@ -49432,17 +49419,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/less/style_demo.less":
-/*!****************************************!*\
-  !*** ./resources/less/style_demo.less ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -49455,15 +49431,14 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 0:
-/*!**********************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/less/style_demo.less ./resources/sass/app.scss ***!
-  \**********************************************************************************************/
+/*!*************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\natalia\Laravel\TrashProject\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\natalia\Laravel\TrashProject\resources\less\style_demo.less */"./resources/less/style_demo.less");
-module.exports = __webpack_require__(/*! C:\natalia\Laravel\TrashProject\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\natali\PHP-Laravel\trash1505\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\natali\PHP-Laravel\trash1505\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

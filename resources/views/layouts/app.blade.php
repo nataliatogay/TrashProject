@@ -6,46 +6,26 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-
-        {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
-        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
-        <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
 
-        <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
 
-        <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
-
-        <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
-
-        <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
-
-        <link rel="stylesheet" href="{{ asset('css/aos.css') }}">
-
-        <link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
-
-        <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.css') }}">
-
-        <link rel="stylesheet" href="{{ asset('css/jquery.timepicker.css') }}">
-
-        <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
-
-        <link rel="stylesheet" href="{{ asset('css/icomoon.css') }}">
-
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    
 
         <title>@yield('title', 'TrashProject')</title>
 
 
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
         @yield('styles')
+        @yield('extra-css')
 
 
-    <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/app.js') }}" defer></script>
 
 </head>
 
@@ -102,7 +82,7 @@
 
                                 @auth
                                     <li class="nav-item cta cta-colored">
-                                        <a href="" class="nav-link">
+                                    <a href="{{ route('cart.index') }}" class="nav-link">
                                             <span class="icon-shopping_cart"></span>[0]
                                         </a>
                                     </li>
@@ -114,7 +94,7 @@
 
                 <div class="hero-wrap hero-bread" style="background-image: url({{ asset('images/bg_6.jpg') }});">
                     <div class="container">
-                            @yield('content')
+                            
                       {{-- <div class="row no-gutters slider-text align-items-center justify-content-center">
                         <div class="col-md-9 ftco-animate text-center">
                             <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span></p>
@@ -124,6 +104,9 @@
                     </div>
                   </div>
         </div>
+        @yield('content')
+
+        @yield('extra-js')
 
 
         </body>
