@@ -1,56 +1,105 @@
-@extends('layout')
+@extends('layouts.app')
+
+@section('title', $product->name)
+
+{{-- @section('extra-css')
+    <link rel="stylesheet" href="{{ asset('css/algolia.css') }}">
+@endsection --}}
+
 @section('content')
-    <h1 class="title">Edit product</h1>
 
-    <form method="POST" action="/products/{{$product->id}}" style="margin-bottom: 1em;">
-        @method('PATCH')
-        @csrf
-        <div class="field">
-            <label for="title" class="label">Title</label>
-            <div class="control">
-            <input type="text" class="input" name="title" placeholder="title" value="{{ $product->title }}">
-               
-            </div>
-        </div>
+    @component('components.breadcrumbs')
+        <a href="/">Home</a>
+        <i class="fa fa-chevron-right breadcrumb-separator"></i>
+        <span><a href="{{ route('shop.index') }}">Shop</a></span>
+        <i class="fa fa-chevron-right breadcrumb-separator"></i>
+        <span>{{ $product->title }}</span>
+    @endcomponent
 
-        <div class="field">
-            <label for="description" class="label">Description</label>
-            <div class="control">
-                <textarea name="description" class="textarea">{{$product->description}}</textarea>
+    <div class="container">
+        @if (session()->has('success_message'))
+            <div class="alert alert-success">
+                {{ session()->get('success_message') }}
             </div>
-        </div>
+        @endif
 
-        <div class="field"> 
-            <label for="price" class="label">Price</label>
-            <div class="control">
-                <input type="number" class="input {{$errors->has('price') ? 'is-danger' : ''}}" name="price" value="{{ $product->price }}" placeholder="Price">
+        @if(count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
+        @endif
+    </div>
+
+    <div class="product-section container">
+        <div>
+            {{-- <div class="product-section-image">
+                <img src="{{ productImage($product->img_path) }}" alt="product" class="active" id="currentImage">
+            </div> --}}
+            <div class="product-section-image"> 
+                <img id="currentImage" width="200" src="{{ productImage($product->img_path) }}" alt="product" class="active"/>
+            </div>
+            
         </div>
+        <div class="product-section-information">
+            <form action="/products/{{$product->id}}" method="POST" enctype="multipart/form-data">
+                @method('patch')
+                @csrf
+                <input type="file"  accept="image/*" name="img_path" id="file"  onchange="loadFile(event)" style="display: none;">
+                <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+                <div class="form-control">
+                    <input id="title" type="text" name="title" value="{{ old('title', $product->title) }}" placeholder="Title" required>
+                </div>
+                <div class="product-section-price">
+                    <div class="control">
+                        <input type="number" class="input {{$errors->has('price') ? 'is-danger' : ''}}" name="price" value="{{ old('price', $product->price) }}" placeholder="Price">
+                    </div>
+                </div>
+                <div class="product-section-price">
+                    <div class="control">
+                        <input type="number" class="input {{$errors->has('quantity') ? 'is-danger' : ''}}" name="quantity" value="{{ old('quantity', $product->quantity) }}" placeholder="Quantity">
+                    </div>
+                </div>
+                <p>
+                        <div class="control">
+                                <textarea name="description" class="textarea">{{$product->description}}</textarea>
+                            </div>
+                        {{-- {!! $product->description !!} --}}
+                </p>
+
+                <div class="field">
+                        <div class="control">
+                            <button type="submit" class="button is-link">Update product</button>
+                        </div>
+                    </div>
+            </form>
+            
+
+            <p>&nbsp;</p>
+
+            
+        </div>
+    </div> <!-- end product-section -->
+
+    {{-- @include('partials.might-like') --}}
+
+@endsection
+
+@section('extra-js')
     
-        <div class="field"> 
-            <label for="quantity" class="label">Quantity</label>
-            <div class="control">
-                <input type="number" class="input {{$errors->has('quantity') ? 'is-danger' : ''}}" name="quantity" value="{{ $product->quantity }}" placeholder="Quantity">
-            </div>
-        </div>
+    <script>
+        var loadFile = function(event) {
+            var image = document.getElementById('currentImage');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
 
-        <div class="field">
-            <div class="control">
-                <button type="submit" class="button is-link">Update product</button>
-            </div>
-        </div>
-        
-    </form>
+    <!-- Include AlgoliaSearch JS Client and autocomplete.js library -->
+    {{-- <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+    {{-- <script src="{{ asset('js/algolia.js') }}"></script> --}}
 
-    @include('errors')
-
-    <form method="POST" action="/products/{{$product->id}}">
-        @method('DELETE')
-        @csrf
-        <div class="field">
-            <div class="control">
-                <button type="submit" class="button">Delete product</button>
-            </div>
-        </div>
-    </form>
 @endsection

@@ -130,6 +130,16 @@ class ProductsController extends Controller
     {
         $this->authorize('update', $product);
         $validated = $request->validated();
+
+        $file = $request->file('img_path');
+        $filename = time().$file->getClientOriginalName();
+        $file->storeAs('public/images', $filename);
+
+        $validated['img_path'] = 'storage/images/'.$filename;
+
+
+
+
         $product->update($validated);
 
         return redirect('/products');

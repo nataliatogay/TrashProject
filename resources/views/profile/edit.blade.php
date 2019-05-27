@@ -1,72 +1,103 @@
 @extends('layouts.app')
 
-@section('title', 'Edit profile')
-
-
-@section('styles')
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-@endsection
+@section('title', 'My Profile')
 
 @section('content')
 
-    <h1>My account</h1>
-    <label>Name: </label>
-    <label>{{ $user->name }}</label><br/>
+    @component('components.breadcrumbs')
+        <a href="/">Home</a>
+        <i class="fa fa-chevron-right breadcrumb-separator"></i>
+        <span>My Profile</span>
+    @endcomponent
 
-    <img id="output" width="200" src="{{ asset($user->img_path) }}"/>
-
-    <form method="POST" action="/profile" class="box" enctype="multipart/form-data">
-        @csrf
-        @method('PATCH')
-
-        <input type="file"  accept="image/*" name="img_path" id="file"  onchange="loadFile(event)" style="display: none;">
-
-        <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
-
-        <div class="field">
-            <div class="control">
-                <input type="text" class="input" name="name" placeholder="Name" value="{{ $user->name }}">
+    <div class="container">
+        @if (session()->has('success_message'))
+            <div class="alert alert-success">
+                {{ session()->get('success_message') }}
             </div>
-        </div>
+        @endif
 
-        <div class="field">
-            <div class="control">
-                <input type="text" class="input" name="phone" placeholder="phone" value="{{ $user->phone_number }}">
+        @if(count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
-        </div>
+        @endif
+    </div>
 
-        <div class="field">
-            <div class="control">
-                <input type="email" class="input" name="email" placeholder="email" value="{{ $user->email }}">
+    <div class="products-section container">
+        <div class="sidebar">
+
+            <ul>
+              <li class="active"><a href="{{ route('profile.edit') }}">My Profile</a></li>
+              <li><a href="{{ route('orders.index') }}">My Orders</a></li>
+            </ul>
+        </div> <!-- end sidebar -->
+        <div class="my-profile">
+            <div class="products-header">
+                <h1 class="stylish-heading">My Profile</h1>
             </div>
-        </div>
 
-        <div class="field">
-            <div class="control">
-                <button class="button is-link" type="submit">Update profile</button>
+            <div>
+                    <img id="output" width="200" src="{{ asset($user->img_path) }}"/>
+                    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                    @method('patch')
+                    @csrf
+
+                    <input type="file"  accept="image/*" name="img_path" id="file"  onchange="loadFile(event)" style="display: none;">
+
+                    <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+                    
+
+                    <div class="form-control">
+                        <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" placeholder="Name" required>
+                    </div>
+
+                    <div class="form-control">
+                        <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" placeholder="Email" disabled="true">
+                    </div>
+                    <p>
+                        <a href="#">Change e-mail</a>
+                    </p>
+
+                    <div class="form-control">
+                        <input type="text" name="phone" placeholder="Phone" value="{{ old('phone', $user->phone_number) }}" required>
+                    </div>
+
+                    {{-- <div class="form-control">
+                        <input id="password" type="password" name="password" placeholder="Password">
+                        <div>Leave password blank to keep current password</div>
+                    </div>
+                    <div class="form-control">
+                        <input id="password-confirm" type="password" name="password_confirmation" placeholder="Confirm Password">
+                    </div> --}}
+                    <div>
+                        <button type="submit" class="my-profile-button">Update Profile</button>
+                    </div>
+                </form>
+                <p>
+                    <a href="/profile/password/edit">Change password</a>
+                </p>
             </div>
+
+            <div class="spacer"></div>
         </div>
-
-        @include('errors')
-    </form>
-
-    <p>
-        <a href="/profile/password/edit">Change password</a>
-    </p>
+    </div>
 
 @endsection
 
-
-@section('scripts')
-
-    <script>
-        var loadFile = function(event) {
-            var image = document.getElementById('output');
-            image.src = URL.createObjectURL(event.target.files[0]);
-        };
-    </script>
-
+@section('extra-js')
+<script>
+    var loadFile = function(event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+    <!-- Include AlgoliaSearch JS Client and autocomplete.js library -->
+    {{-- <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+    {{-- <script src="{{ asset('js/algolia.js') }}"></script> --}}
 @endsection

@@ -10674,7 +10674,7 @@ a.text-dark:focus {
 
 @media (max-width: 991.98px) {
   .ftco-navbar-light {
-    background: #000000 !important;
+    background: black;
     position: relative;
     top: 0;
     padding: 10px 15px;
@@ -11076,6 +11076,16 @@ a.text-dark:focus {
   padding: 12em 0;
 }
 
+.htitle {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  list-style: none;
+  background-color: transparent;
+  border-radius: 0.25rem;
+}
+
 .hero-wrap {
   background-size: cover;
   background-repeat: no-repeat;
@@ -11396,5 +11406,32 @@ a.text-dark:focus {
   font-size: 38px;
   color: #212121;
   margin-bottom: 16px;
+}
+
+.my-profile label {
+  display: block;
+}
+
+.my-profile .form-control {
+  margin-bottom: 30px;
+}
+
+.my-profile input {
+  border: 1px solid #919191;
+  padding: 16px 10px;
+  border-radius: 5px;
+  width: 66.6%;
+  font-size: 14px;
+}
+
+.my-profile .my-profile-button {
+  background: #212121;
+  color: #fff;
+  border-radius: 5px;
+  padding: 12px 50px;
+}
+
+.my-profile .my-profile-button:hover {
+  background: #3b3b3b;
 }
 

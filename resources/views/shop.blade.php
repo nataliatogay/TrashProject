@@ -41,6 +41,7 @@
                     {{-- <li ><a href="{{ route('shop.index', ['category' => '1']) }}">{{ $category->title }}</a></li> --}}
                 @endforeach
             </ul>
+            
         </div> <!-- end sidebar -->
 
         <div>
@@ -62,6 +63,13 @@
                         <a href="{{ route('shop.show', $product->slug) }}"><img src="{{ productImage($product->img_path) }}" alt="product"></a>
                         <a href="{{ route('shop.show', $product->slug) }}"><div class="product-name">{{ $product->title }}</div></a>
                         <div class="product-price">{{ $product->presentPrice() }}</div>
+                        @can('update', $product)
+
+            <p>
+                <a href="/products/{{$product->id}}/edit">Edit</a>
+            </p>
+
+        @endcan
                     </div>
                 @empty
                     <div style="text-align: left">No items found</div>

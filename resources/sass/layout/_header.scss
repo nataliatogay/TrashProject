@@ -15,7 +15,7 @@ $primary: #dbcc8f;
 	z-index: 3;
 	padding: 0;
 	@include media-breakpoint-down(md) {
-		background: $black!important;
+		background: black;
 		position: relative;
 		top: 0;
 		padding: 10px 15px;
@@ -382,6 +382,15 @@ $primary: #dbcc8f;
 
 }
 
+.htitle {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0.75rem 1rem;
+	margin-bottom: 1rem;
+	list-style: none;
+	background-color: transparent;
+	border-radius: 0.25rem;
+  }
 // .hero-wrap,
 // .img,
 // .blog-img,

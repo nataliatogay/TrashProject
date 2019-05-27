@@ -42,7 +42,7 @@
                         <div class="collapse navbar-collapse" id="ftco-nav">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link">Home</a>
+                                    <a href="{{ route('shop.index') }}" class="nav-link">Shop</a>
                                 </li>
                                 <li class="nav-item active">
                                     <a href="" class="nav-link">About</a>
@@ -83,7 +83,7 @@
                                 @auth
                                     <li class="nav-item cta cta-colored">
                                     <a href="{{ route('cart.index') }}" class="nav-link">
-                                            <span class="icon-shopping_cart"></span>[0]
+                                            <span class="icon-shopping_cart"></span>[{{ Cart::instance('default')->count() }}]
                                         </a>
                                     </li>
                                 @endauth
@@ -95,12 +95,12 @@
                 <div class="hero-wrap hero-bread" style="background-image: url({{ asset('images/bg_6.jpg') }});">
                     <div class="container">
                             
-                      {{-- <div class="row no-gutters slider-text align-items-center justify-content-center">
+                      <div class="row no-gutters slider-text align-items-center justify-content-center">
                         <div class="col-md-9 ftco-animate text-center">
-                            <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span></p>
+                            <p class="breadcrumbs"><span class="mr-2"><a href="/home">Home</a></span> <span>About</span></p>
                           <h1 class="mb-0 bread">About Us</h1>
                         </div>
-                      </div> --}}
+                      </div>
                     </div>
                   </div>
         </div>

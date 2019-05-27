@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Auth::routes();
+
 Auth::routes(['verify' => true]);
 
 /*
@@ -35,9 +35,9 @@ Route::resource('articles', 'ArticlesController');
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth')->middleware('verified');
 
 Route::get('profile', 'UsersController@index')->middleware('verified')->name('profile');
-Route::get('edit', 'UsersController@edit');
-Route::get('profile/edit', 'UsersController@edit');
-Route::patch('profile', 'UsersController@update');
+// Route::get('edit', 'UsersController@edit');
+Route::get('profile/edit', 'UsersController@edit')->name('profile.edit');
+Route::patch('profile', 'UsersController@update')->name('profile.update');;
 Route::get('/profile/password/edit', 'UsersController@editpassword');
 Route::patch('/profile/password', 'UsersController@changePassword')->name('changePassword');
 
@@ -69,4 +69,7 @@ Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');
 
 
 Route::get('/checkout', 'CheckoutController@index')->name('checkout.index')->middleware('auth');
+
+Route::get('/my-orders', 'OrdersController@index')->name('orders.index');
+Route::get('/my-orders/{order}', 'OrdersController@show')->name('orders.show');
 
